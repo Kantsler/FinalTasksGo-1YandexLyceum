@@ -1,0 +1,81 @@
+package main
+
+import "fmt"
+
+func main() {
+	var first, second, third, fourth, fifth, inputName string
+	var inputNumber, vacant int
+
+	first = "-"
+	second = "-"
+	third = "-"
+	fourth = "-"
+	fifth = "-"
+
+	vacant = 5
+
+	for {
+
+		fmt.Scan(&inputName)
+		if inputName == "" {
+			continue
+		}
+		if inputName == "очередь" {
+			fmt.Printf("1. %s\n", first)
+			fmt.Printf("2. %s\n", second)
+			fmt.Printf("3. %s\n", third)
+			fmt.Printf("4. %s\n", fourth)
+			fmt.Printf("5. %s\n", fifth)
+			continue
+		}
+		if inputName == "количество" {
+			fmt.Printf("Осталось свободных мест: %d\n", vacant)
+			fmt.Printf("Всего человек в очереди: %d\n", 5-vacant)
+			continue
+		}
+		if inputName == "конец" {
+			fmt.Printf("1. %s\n", first)
+			fmt.Printf("2. %s\n", second)
+			fmt.Printf("3. %s\n", third)
+			fmt.Printf("4. %s\n", fourth)
+			fmt.Printf("5. %s\n", fifth)
+			break
+		}
+
+		fmt.Scan(&inputNumber)
+
+		if inputNumber > 5 || inputNumber < 1 {
+			fmt.Printf("Запись на место номер %d невозможна: некорректный ввод\n", inputNumber)
+			continue
+		}
+		if vacant <= 0 {
+			fmt.Printf("Запись на место номер %d невозможна: очередь переполнена\n", inputNumber)
+			continue
+		}
+		if inputNumber == 1 && first != "-" || inputNumber == 2 && second != "-" || inputNumber == 3 && third != "-" || inputNumber == 4 && fourth != "-" || inputNumber == 5 && fifth != "-" {
+			fmt.Printf("Запись на место номер %d невозможна: место уже занято\n", inputNumber)
+			continue
+		}
+		vacant--
+		if inputNumber == 1 {
+			first = inputName
+			continue
+		}
+		if inputNumber == 2 {
+			second = inputName
+			continue
+		}
+		if inputNumber == 3 {
+			third = inputName
+			continue
+		}
+		if inputNumber == 4 {
+			fourth = inputName
+			continue
+		}
+		if inputNumber == 5 {
+			fifth = inputName
+			continue
+		}
+	}
+}
