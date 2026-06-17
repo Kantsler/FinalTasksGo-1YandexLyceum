@@ -1,0 +1,63 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+    "sort"
+)
+
+func AnalyzeText(text string) {
+	isSeparator := func (r rune) bool{
+		return r==' ' || r=='.' || r==',' || r=='!' || r=='?'
+	}
+
+	words := strings.FieldsFunc(text, isSeparator)
+	wordMap := make(map[string]int)
+	for _, word := range words{
+		lowerWord := strings.ToLower(word)
+		wordMap[lowerWord]++
+	}
+	totalWords := len(words)
+	uniqueWords := len(wordMap)
+
+	var mostFrequentWord string
+	maxCount := 0
+	for word, count := range wordMap {
+		if count > maxCount {
+			maxCount = count
+			mostFrequentWord = word
+		}
+	}
+	top5Words := getTopWords(wordMap, 5)
+
+	fmt.Printf("Количество слов: %d\n", totalWords)
+	fmt.Printf("Количество уникальных слов: %d\n", uniqueWords)
+	fmt.Printf("Самое часто встречающееся слово: \"%s\" (встречается %d раз)\n", mostFrequentWord, maxCount)
+	fmt.Println("Топ-5 самых часто встречающихся слов:")
+	for _, word := range top5Words {
+		fmt.Printf("\"%s\": %d раз\n", word, wordMap[word])
+	}
+}
+
+func getTopWords(wordMap map[string]int, n int) []string {
+	type wordCount struct {
+		word  string
+		count int
+	}
+	
+	pairs := make([]wordCount, 0, len(wordMap))
+	for word, count := range wordMap {
+		pairs = append(pairs, wordCount{word, count})
+	}
+	
+	sort.Slice(pairs, func(i, j int) bool {
+		return pairs[i].count > pairs[j].count
+	})
+	
+	result := make([]string, n)
+	for i := 0; i < n; i++ {
+		result[i] = pairs[i].word
+	}
+	
+	return result
+}
