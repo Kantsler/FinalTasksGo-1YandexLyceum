@@ -1,0 +1,59 @@
+package main
+
+import (
+	"errors"
+	"strings"
+	"time"
+	"unicode/utf8"
+)
+
+func currentDayOfTheWeek() string {
+	now := TimeNow()
+
+	switch now.Weekday() {
+	case time.Monday:
+		return "Понедельник"
+	case time.Tuesday:
+		return "Вторник"
+	case time.Wednesday:
+		return "Среда"
+	case time.Thursday:
+		return "Четверг"
+	case time.Friday:
+		return "Пятница"
+	case time.Saturday:
+		return "Суббота"
+	default:
+		return "Воскресенье"
+	}
+}
+
+func dayOrNight() string {
+	hour := TimeNow().Hour()
+
+	if hour >= 10 && hour <= 22 {
+		return "День"
+	}
+
+	return "Ночь"
+}
+
+func nextFriday() int {
+	now := TimeNow().Weekday()
+
+	return (int(time.Friday) - int(now) + 7) % 7
+}
+
+func CheckCurrentDayOfTheWeek(answer string) bool {
+	return strings.ToLower(answer) ==
+		strings.ToLower(currentDayOfTheWeek())
+}
+
+func CheckNowDayOrNight(answer string) (bool, error) {
+	if utf8.RuneCountInString(answer) != 4 {
+		return false, errors.New("исправь свой ответ, а лучше ложись поспать")
+	}
+
+	return strings.ToLower(answer) ==
+		strings.ToLower(dayOrNight()), nil
+}
