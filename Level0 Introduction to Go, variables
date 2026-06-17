@@ -1,0 +1,40 @@
+package main
+
+import (
+	"fmt"
+	"math"
+	"time"
+)
+
+func main() {
+	var start, name, middleName, surName string
+	var salary1, salary2, salary3 float64
+
+	fmt.Scanln(&start)
+	fmt.Scanln(&name)
+	fmt.Scanln(&surName)
+	fmt.Scanln(&middleName)
+
+	fmt.Scanln(&salary1)
+	fmt.Scanln(&salary2)
+	fmt.Scanln(&salary3)
+
+	layout := "02.01.2006"
+
+	sum := salary1 + salary2 + salary3
+
+	date, err := time.Parse(layout, start)
+
+	if err != nil {
+		fmt.Println("Error")
+		return
+	}
+	result := date.AddDate(0, 0, 15)
+	rubles := math.Floor(sum)
+	kop := math.Round((sum - rubles) * 100)
+
+	fmt.Printf("Уважаемый, %s %s %s, доводим до вашего сведения, что бухгалтерия сформировала документы по факту выполненной вами работы.\nДата подписания договора: %s. Просим вас подойти в офис в любое удобное для вас время в этот день.\nОбщая сумма выплат составит %.0f руб. %.0f коп.", surName, name, middleName, result.Format("02.01.2006"), rubles, kop)
+	fmt.Println()
+	fmt.Println()
+	fmt.Printf("С уважением,\nГл. бух. Иванов А.Е.")
+}
